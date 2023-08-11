@@ -1,4 +1,6 @@
 import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import { registerUser } from "../../store/thunkFunctions";
 
 const LandingPage = () => {
     const {
@@ -8,7 +10,16 @@ const LandingPage = () => {
         reset,
     } = useForm({ mode: "onChange" });
 
+    const dispatch = useDispatch();
+
     const onSubmit = ({ email, password, name }) => {
+        const body = {
+            email,
+            password,
+            name,
+            image: `https://placehold.co/600x400`,
+        };
+        dispatch(registerUser(body));
         reset();
     };
 
