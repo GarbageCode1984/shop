@@ -21,9 +21,7 @@ mongoose
     });
 
 app.get("/", (req, res, next) => {
-    setImmediate(() => {
-        next(new Error("it is an error"));
-    });
+    res.send("Hello World!");
 });
 
 app.post("/", (req, res) => {
@@ -31,12 +29,9 @@ app.post("/", (req, res) => {
     res.json(req.body);
 });
 
-app.use(express.static(path.join(__dirname, "../uploads")));
+app.use("/users", require("./routes/users"));
 
-app.use((error, req, res, next) => {
-    res.status(err.status || 500);
-    res.send(error.message || "서버에서 에러가 났습니다.");
-});
+app.use(express.static(path.join(__dirname, "../uploads")));
 
 app.listen(port, () => {
     console.log(`${port} port start`);
