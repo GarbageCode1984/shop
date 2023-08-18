@@ -15,3 +15,33 @@ export const registerUser = createAsyncThunk(
         }
     }
 );
+
+export const loginUser = createAsyncThunk(
+    "user/loginUser",
+    async (body, thunkAPI) => {
+        try {
+            const response = await axiosInstanse.post(`/users/login`, body);
+            return response.data;
+        } catch (error) {
+            console.log(error);
+            return thunkAPI.rejectWithValue(
+                error.response.data || error.message
+            );
+        }
+    }
+);
+
+export const authUser = createAsyncThunk(
+    "user/authUser",
+    async (_, thunkAPI) => {
+        try {
+            const response = await axiosInstanse.get(`/users/auth`);
+            return response.data;
+        } catch (error) {
+            console.log(error);
+            return thunkAPI.rejectWithValue(
+                error.response.data || error.message
+            );
+        }
+    }
+);
