@@ -30,6 +30,7 @@ app.post("/", (req, res) => {
 });
 
 app.use("/users", require("./routes/users"));
+app.use("/products", require("./routes/products"));
 
 app.use(express.static(path.join(__dirname, "../uploads")));
 

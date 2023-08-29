@@ -13,16 +13,15 @@ import { authUser } from "./store/thunkFunctions";
 import NotAuthRoutes from "./components/NotAuthRoutes";
 import ProtectedRotues from "./components/ProtectedRotues";
 import ProtectedPage from "./pages/ProtectedPage/index";
+import UploadProductPage from "./pages/UploadProductPage/index";
+import DetailProductPage from "./pages/DetailProductPage/index";
+import CartPage from "./pages/CartPage/index";
+import HistoryPage from "./pages/HistoryPage/index";
 
 function Layout() {
     return (
         <div className="flex flex-col h-screen justify-between">
-            <ToastContainer
-                position="bottom-right"
-                theme="light"
-                pauseOnHover
-                autoClose={1500}
-            />
+            <ToastContainer position="bottom-right" theme="light" pauseOnHover autoClose={1500} />
             <Navbar />
             <main className="mb-auto w-10/12 max-w-4xl mx-auto">
                 <Outlet />
@@ -52,6 +51,10 @@ function App() {
                     {/* 로그인한 사람만 갈 수 있는 경로 */}
                     <Route element={<ProtectedRotues isAuth={isAuth} />}>
                         <Route path="/protected" element={<ProtectedPage />} />
+                        <Route path="/product/upload" element={<UploadProductPage />} />
+                        <Route path="/product/:productId" element={<DetailProductPage />} />
+                        <Route path="/user/cart" element={<CartPage />} />
+                        <Route path="/history" element={<HistoryPage />} />
                     </Route>
 
                     {/* 로그인한 사람은 갈 수 없는 경로 */}

@@ -15,4 +15,17 @@ axiosInstanse.interceptors.request.use(
     }
 );
 
+axiosInstanse.interceptors.response.use(
+    function (response) {
+        return response;
+    },
+    function (err) {
+        if (err.response.data === "jwt expired") {
+            window.location.reload();
+        }
+
+        return Promise.reject(err);
+    }
+);
+
 export default axiosInstanse;
