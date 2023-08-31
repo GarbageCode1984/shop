@@ -78,7 +78,14 @@ router.get("/", async (req, res, next) => {
 router.get("/:id", async (req, res, next) => {
     const type = req.query.type;
     let productIds = req.params.id;
-    console.log(req.params);
+
+    if (type === "array") {
+        let ids = productIds.split(",");
+        productIds = ids.map(item => {
+            return item;
+        });
+    }
+
     try {
         const product = await Product.find({ _id: { $in: productIds } }).populate("writer");
         return res.status(200).send(product);
