@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
+const Product = require("../models/Product");
 const jwt = require("jsonwebtoken");
 const auth = require("../middleware/auth");
 
@@ -102,6 +103,30 @@ router.post("/cart", auth, async (req, res, next) => {
         }
     } catch (err) {
         next(err);
+    }
+});
+
+router.delete("/cart", auth, async (req, res, next) => {
+    try {
+        const userInfo = await User.findOneAndUpdate(
+            { _id: req.user._id },
+            {
+                $pull: { cart: { id: req.query.productId } },
+            },
+            { new: true }
+        );
+        const cart = userInfo.cart;
+        const array = cart.map(item => {
+            return item.id;
+        });
+
+        const productInfo = await Product.find({ _id: { $in: array } }).populate("writer");
+        return res.json({
+            productInfo,
+            cart,
+        });
+    } catch (error) {
+        next(error);
     }
 });
 
