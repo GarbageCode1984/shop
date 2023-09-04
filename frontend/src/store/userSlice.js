@@ -1,5 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { addToCart, authUser, getCartItems, loginUser, logoutUser, registerUser } from "./thunkFunctions";
+import {
+    addToCart,
+    authUser,
+    getCartItems,
+    loginUser,
+    logoutUser,
+    payProducts,
+    registerUser,
+    removeCartItem,
+} from "./thunkFunctions";
 import { toast } from "react-toastify";
 
 const initialState = {
@@ -101,6 +110,36 @@ const userSlice = createSlice({
                 state.cartDetail = action.payload;
             })
             .addCase(getCartItems.rejected, (state, action) => {
+                state.isLoading = false;
+                state.error = action.payload;
+                toast.error(action.payload);
+            })
+
+            .addCase(removeCartItem.pending, state => {
+                state.isLoading = true;
+            })
+            .addCase(removeCartItem.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.cartDetail = action.payload.productInfo;
+                state.userData.cart = action.payload.cart;
+                toast.info("상품이 장바구니에서 제거됐습니다.");
+            })
+            .addCase(removeCartItem.rejected, (state, action) => {
+                state.isLoading = false;
+                state.error = action.payload;
+                toast.error(action.payload);
+            })
+
+            .addCase(payProducts.pending, state => {
+                state.isLoading = true;
+            })
+            .addCase(payProducts.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.cartDetail = [];
+                state.userData.cart = [];
+                toast.info("성공적으로 상품을 구매했습니다.");
+            })
+            .addCase(payProducts.rejected, (state, action) => {
                 state.isLoading = false;
                 state.error = action.payload;
                 toast.error(action.payload);

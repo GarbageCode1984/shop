@@ -20,6 +20,7 @@ const routes = [
 
 const NavItem = ({ mobile }) => {
     const isAuth = useSelector(state => state.user?.isAuth);
+    const cart = useSelector(state => state.user?.userData?.cart);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -40,36 +41,27 @@ const NavItem = ({ mobile }) => {
 
                 if (name === "로그아웃") {
                     return (
-                        <li
-                            className="py-2 text-center border-b-4 cursor-pointer"
-                            key={name}
-                        >
+                        <li className="py-2 text-center border-b-4 cursor-pointer" key={name}>
                             <Link onClick={handleLogout}>{name}</Link>
                         </li>
                     );
                 } else if (icon) {
                     return (
-                        <li
-                            className="relative py-2 text-center border-b-4 cursor-pointer"
-                            key={name}
-                        >
+                        <li className="relative py-2 text-center border-b-4 cursor-pointer" key={name}>
                             <Link to={to}>
                                 {icon}
                                 <span
                                     className="absolute top-0 inline-flex items-center justify-center w-4 h-4 text-xs 
                                 font-bold text-white bg-red-500 border-2 border-white rounded-full -right-3"
                                 >
-                                    {1}
+                                    {cart?.length}
                                 </span>
                             </Link>
                         </li>
                     );
                 } else {
                     return (
-                        <li
-                            className="py-2 text-center border-b-4 cursor-pointer"
-                            key={name}
-                        >
+                        <li className="py-2 text-center border-b-4 cursor-pointer" key={name}>
                             <Link to={to}>{name}</Link>
                         </li>
                     );

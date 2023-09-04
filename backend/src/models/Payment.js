@@ -3,13 +3,13 @@ const { default: mongoose } = require("mongoose");
 const paymentSchema = mongoose.Schema(
     {
         user: {
-            type: Obejct,
+            type: Object,
         },
         data: {
             type: Array,
             default: [],
         },
-        proudct: {
+        product: {
             type: Array,
             default: [],
         },
